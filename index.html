@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>GOOD-TECH - Portfolio</title>
+  <style>
+    /* Reset */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100vh; background: #f5f7fa; font-family: 'Segoe UI', Arial, sans-serif; }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; width: 100vw;
+      background: #232d3f;
+      color: #fff;
+      z-index: 100;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      box-shadow: 0 2px 8px rgba(34,45,63,0.06);
+    }
+    .navbar .brand {
+      font-size: 1.6rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #2af598;
+      margin-right: 20px;
+      text-shadow: 1px 1px 3px #232d3f44;
+    }
+    .navbar .nav-links {
+      display: flex;
+      gap: 32px;
+    }
+    .navbar .nav-link {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.06rem;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.15s;
+      padding: 6px 0;
+    }
+    .navbar .nav-link.active,
+    .navbar .nav-link:hover {
+      color: #2af598;
+    }
+    /* Mobile menu */
+    .navbar .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      margin-left: 18px;
+    }
+    .navbar .menu-toggle span {
+      width: 26px; height: 3px;
+      background: #fff;
+      border-radius: 2px;
+      display: block;
+    }
+    @media (max-width: 720px) {
+      .navbar { padding: 0 12px; }
+      .navbar .nav-links {
+        position: fixed;
+        top: 60px; left: 0;
+        width: 100vw;
+        background: #232d3f;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 24px 0 12px 24px;
+        box-shadow: 0 3px 24px rgba(34,45,63,0.18);
+        transform: translateY(-130%);
+        transition: transform 0.26s cubic-bezier(.4,1.7,.7,.7);
+        z-index: 101;
+      }
+      .navbar .nav-links.open { transform: translateY(0); }
+      .navbar .menu-toggle { display: flex; }
+    }
+
+    /* Main Content */
+    main {
+      min-height: 80vh;
+      padding: 80px 0 80px 0;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    section {
+      width: 100%;
+      max-width: 900px;
+      background: #fff;
+      margin: 0 auto 32px auto;
+      padding: 32px 32px 32px 32px;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(34,45,63,0.055);
+      display: none;
+      animation: fadein 0.6s;
+    }
+    section.active { display: block; }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: none;}
+    }
+    @media (max-width: 700px) {
+      section { padding: 20px 7vw 22px 7vw; border-radius: 13px;}
+    }
+    @media (max-width: 450px) {
+      main { padding: 66px 0 80px 0;}
+      section { padding: 14px 3vw 16px 3vw;}
+    }
+
+    /* Home styles */
+    .home-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+    .home-message {
+      flex: 2;
+      font-size: 1.08rem;
+      color: #25282a;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .home-img {
+      flex: 1.2;
+      max-width: 220px;
+      min-width: 120px;
+      margin: 0 auto;
+      display: block;
+      border-radius: 15px;
+      box-shadow: 0 3px 12px #2af59829;
+    }
+    .inscription-btn {
+      margin-top: 28px;
+      padding: 11px 32px;
+      background: linear-gradient(90deg,#2af598 0,#009efd 100%);
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      border-radius: 24px;
+      font-size: 1.07rem;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 2px 12px #2af59829;
+      transition: background 0.22s;
+    }
+    .inscription-btn:hover {
+      background: linear-gradient(90deg,#009efd 0,#2af598 100%);
+      color: #111;
+    }
+    @media (max-width: 700px) {
+      .home-flex { flex-direction: column; gap: 14px; align-items: flex-start;}
+      .home-img { margin-bottom: 18px; align-self: center;}
+    }
+
+    /* A propos */
+    .propos-title {
+      color: #009efd;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+    .about-content {
+      font-size: 1.07rem;
+      color: #25282a;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    /* Contact */
+    .contact-form {
+      max-width: 440px;
+      margin: 0 auto;
+    }
+    .contact-form label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 7px;
+      margin-top: 16px;
+      color: #232d3f;
+    }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #bfcde0;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      resize: none;
+      background: #f5f7fa;
+      color: #222;
+    }
+    .contact-form button {
+      background: linear-gradient(90deg,#2af598 0,#009efd 100%);
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 28px;
+      font-size: 1.03rem;
+      cursor: pointer;
+      margin-top: 18px;
+      transition: background 0.18s;
+    }
+    .contact-form button:hover {
+      background: linear-gradient(90deg,#009efd 0,#2af598 100%);
+      color: #111;
+    }
+    .form-success, .form-error {
+      margin-top: 10px;
+      color: #2af598;
+      font-weight: bold;
+      font-size: 1.09rem;
+    }
+    .form-error { color: #e74c3c;}
+    /* Profil */
+    .profile-container {
+      max-width: 390px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+    .profile-photo-box {
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(120deg,#2af59822 0,#009efd22 100%);
+      box-shadow: 0 2px 18px #2af59828;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .profile-photo-box img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+      background: #e1e7ee;
+    }
+    .profile-upload-label {
+      margin: 10px 0 0 0;
+      padding: 7px 18px;
+      background: #009efd;
+      color: #fff;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 0.98rem;
+      font-weight: 500;
+      transition: background 0.17s;
+      display: inline-block;
+    }
+    .profile-upload-label:hover { background: #2af598; color: #232d3f;}
+    .profile-upload-input { display: none; }
+    .profile-download-btn {
+      margin-top: 14px;
+      padding: 7px 20px;
+      background: #2af598;
+      color: #232d3f;
+      font-size: 1rem;
+      border-radius: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.16s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .profile-download-btn:hover { background: #009efd; color: #fff;}
+    .profile-info {
+      color: #25282a;
+      font-size: 1.06rem;
+      margin-top: 2px;
+      text-align: center;
+    }
+
+    /* Footer */
+    footer {
+      width: 100vw;
+      background: #232d3f;
+      color: #e4e6eb;
+      text-align: center;
+      padding: 19px 0 13px 0;
+      font-size: 1.05rem;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      z-index: 99;
+      box-shadow: 0 -2px 8px rgba(34,45,63,0.06);
+      letter-spacing: 0.5px;
+    }
+    @media (max-width: 600px) {
+      footer { font-size: 0.96rem; padding: 13px 0 7px 0;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="brand">GOOD-TECH</div>
+    <div class="menu-toggle" id="menuToggle" aria-label="Menu mobile" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#acceuil" class="nav-link" data-link="acceuil">Accueil</a>
+      <a href="#apropos" class="nav-link" data-link="apropos">À propos</a>
+      <a href="#contact" class="nav-link" data-link="contact">Contact</a>
+      <a href="#profil" class="nav-link" data-link="profil">Profil</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Accueil -->
+    <section id="acceuil" class="active">
+      <div class="home-flex">
+        <div class="home-message">
+          <h1 style="color:#009efd;margin-bottom:16px;">Bienvenue sur GOOD-TECH</h1>
+          <p>
+            Nous sommes ravis de vous accueillir sur notre plateforme dédiée à l’apprentissage et à la passion pour l’informatique.<br>
+            Ici, les jeunes informaticiens trouvent un espace pour apprendre, partager et évoluer ensemble.<br>
+            GOOD-TECH s’engage à offrir des ressources adaptées, des conseils pratiques et un accompagnement personnalisé.<br>
+            Rejoignez une communauté dynamique, avide de connaissances et de nouvelles technologies.<br>
+            Ensemble, développons vos compétences techniques et vos capacités créatives.<br>
+            Préparez-vous à explorer, à collaborer et à réussir dans le monde numérique d'aujourd'hui !
+          </p>
+        </div>
+        <img class="home-img" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80" alt="Jeunes informaticiens">
+      </div>
+      <a class="inscription-btn" href="#inscription">Inscription</a>
+    </section>
+
+    <!-- À propos -->
+    <section id="apropos">
+      <div class="propos-title">À propos de GOOD-TECH</div>
+      <div class="about-content">
+        <p>
+          GOOD-TECH est une initiative créée pour encourager et soutenir l’apprentissage des jeunes passionnés d'informatique.<br>
+          Nous croyons que chaque jeune mérite l’opportunité d’accéder à des outils modernes et à un encadrement adapté.<br>
+          Nos activités couvrent la programmation, le développement web, les bases de données, la cybersécurité et bien d’autres domaines.<br>
+          Notre plateforme propose des tutoriels interactifs, des ateliers pratiques, des événements collaboratifs et un accompagnement personnalisé.<br>
+          GOOD-TECH valorise l’entraide, la curiosité et l’innovation, afin de former les talents numériques de demain.<br>
+          Rejoignez-nous pour faire partie d’une communauté qui partage la même passion pour la technologie et l’apprentissage continu !
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="propos-title">Nous contacter</div>
+      <form class="contact-form" id="contactForm" autocomplete="off">
+        <label for="name">Nom</label>
+        <input type="text" id="name" placeholder="Votre nom" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Votre email" required>
+        <label for="message">Message</label>
+        <textarea id="message" rows="5" placeholder="Votre message..." required></textarea>
+        <button type="submit">Envoyer</button>
+        <div class="form-success" id="formSuccess" style="display:none;">Merci ! Votre message a bien été envoyé.</div>
+        <div class="form-error" id="formError" style="display:none;">Erreur : Veuillez remplir tous les champs.</div>
+      </form>
+      <div style="margin-top:18px;text-align:center;">
+        <span style="color:#009efd;font-weight:500;">Contact direct :</span>
+        <br>
+        <a href="mailto:davidmakindu9@gmail.com" style="color:#2af598;text-decoration:underline;">davidmakindu9@gmail.com</a>
+      </div>
+    </section>
+
+    <!-- Profil -->
+    <section id="profil">
+      <div class="propos-title">Profil utilisateur</div>
+      <div class="profile-container">
+        <div class="profile-photo-box" id="profilePhotoBox">
+          <img id="profilePhoto" src="https://ui-avatars.com/api/?name=GOOD-TECH&size=256&background=009efd&color=fff" alt="Profil">
+        </div>
+        <label class="profile-upload-label" for="profileUpload">Changer la photo</label>
+        <input type="file" accept="image/*" id="profileUpload" class="profile-upload-input">
+        <button class="profile-download-btn" id="downloadBtn" type="button">Télécharger la photo GOOD-TECH</button>
+        <div class="profile-info">Téléchargez votre photo de profil personnalisée avec le texte <b>GOOD-TECH</b>.</div>
+      </div>
+    </section>
+
+    <!-- Page inscription démo -->
+    <section id="inscription">
+      <div class="propos-title">Inscription</div>
+      <div class="about-content">
+        <p>
+          Merci de votre intérêt !<br>
+          Pour rejoindre GOOD-TECH, veuillez envoyer un email à :<br>
+          <a href="mailto:davidmakindu9@gmail.com" style="color:#2af598;text-decoration:underline;">davidmakindu9@gmail.com</a><br>
+          Nous vous répondrons rapidement avec les prochaines étapes.<br>
+          <br>
+          Retourner à l'<a href="#acceuil" style="color:#009efd;text-decoration:underline;">accueil</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <span>&copy; 2025 GOOD-TECH — Tous droits réservés.</span>
+  </footer>
+
+<script>
+  // Navigation SPA simple
+  const sections = document.querySelectorAll('main section');
+  const navLinks = document.querySelectorAll('.nav-link');
+  function showSection(id) {
+    let found = false;
+    sections.forEach(sec => {
+      if (sec.id === id) {
+        sec.classList.add('active');
+        found = true;
+      } else {
+        sec.classList.remove('active');
+      }
+    });
+    navLinks.forEach(link => {
+      if (link.dataset.link === id) link.classList.add('active');
+      else link.classList.remove('active');
+    });
+    // Si la section n'existe pas, retourne à l'accueil
+    if (!found) sections[0].classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    // Ferme menu mobile
+    document.getElementById('navLinks').classList.remove('open');
+  }
+  function handleHashChange() {
+    let hash = window.location.hash.replace('#','') || 'acceuil';
+    showSection(hash);
+  }
+  window.addEventListener('hashchange', handleHashChange);
+  document.addEventListener('DOMContentLoaded', handleHashChange);
+
+  // Menu mobile
+  const menuToggle = document.getElementById('menuToggle');
+  menuToggle.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+  menuToggle.addEventListener('keydown', (e)=>{
+    if(e.key==="Enter"||e.key===" ") menuToggle.click();
+  });
+  navLinks.forEach(link=>{
+    link.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open'));
+  });
+
+  // Contact form (demo only)
+  document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    let name = document.getElementById('name').value.trim();
+    let email = document.getElementById('email').value.trim();
+    let message = document.getElementById('message').value.trim();
+    let ok = name && email && message;
+    document.getElementById('formSuccess').style.display = ok ? 'block':'none';
+    document.getElementById('formError').style.display = ok ? 'none':'block';
+    if(ok) this.reset();
+  });
+
+  // --- Profile photo functionalities ---
+  const profileUpload = document.getElementById('profileUpload');
+  const profilePhoto = document.getElementById('profilePhoto');
+  const downloadBtn = document.getElementById('downloadBtn');
+  // Dessiner une image avec le texte GOOD-TECH
+  function generateGoodTechImage(src=null, callback) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256; canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#009efd';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    if(src) {
+      const img = new window.Image();
+      img.onload = function() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(128,128,120,0,2*Math.PI);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(img,8,8,240,240);
+        ctx.restore();
+        // Texte GOOD-TECH
+        ctx.font = 'bold 30px Segoe UI,Arial';
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'center';
+        ctx.fillText('GOOD-TECH',128,238);
+        callback(canvas.toDataURL('image/png'));
+      };
+      img.src = src;
+    } else {
+      // Par défaut, avatar texte
+      ctx.fillStyle = '#fff';
+      ctx.beginPath();
+      ctx.arc(128, 128, 120, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.fill();
+      ctx.font = 'bold 38px Segoe UI,Arial';
+      ctx.fillStyle = '#009efd';
+      ctx.textAlign = 'center';
+      ctx.fillText('GOOD-TECH',128,138);
+      callback(canvas.toDataURL('image/png'));
+    }
+  }
+  profileUpload.addEventListener('change', function(){
+    const file = this.files[0];
+    if(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        generateGoodTechImage(e.target.result, function(dataUrl){
+          profilePhoto.src = dataUrl;
+          // Sauvegarde localStorage (optionnel)
+          try { localStorage.setItem('goodtech_profile', dataUrl);} catch{}
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  // Télécharger l'image GOOD-TECH
+  downloadBtn.addEventListener('click', function(){
+    const link = document.createElement('a');
+    link.download = 'GOOD-TECH-profile.png';
+    generateGoodTechImage(profilePhoto.src, function(dataUrl){
+      link.href = dataUrl;
+      link.click();
+    });
+  });
+  // Charger photo depuis localStorage
+  try {
+    let pic = localStorage.getItem('goodtech_profile');
+    if(pic) profilePhoto.src = pic;
+  } catch{}
+
+</script>
+</body>
+</html>
